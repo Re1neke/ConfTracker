@@ -1,0 +1,380 @@
+body {
+	background-color: #f2f2f2;
+	margin: 0;
+	font-family: Arial, sans-serif;
+	color: #1a1a1a;
+}
+
+h1, h2, h3 {
+	color: #8faabc;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+#sidebar {
+	background-color: #8faabc;
+	height:100vh;
+	width: 220px;
+	position: fixed;
+}
+
+#sidebar a {
+	color: #ffffff;
+	text-decoration: none;
+	display: block;
+}
+
+#sidebar a:hover {
+	color: #f2f2f2;
+	background-color: #60869f;
+}
+
+#sidebar ul {
+	list-style: none;
+	padding: 0;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+#sidebar ul.menu {
+	font-size: 30px;
+	line-height: 32px;
+	padding: 20px 0 0 0;
+}
+
+#sidebar ul.menu > li > a {
+	padding: 5px 0 0 25px;
+}
+
+#sidebar ul.submenu {
+	font-size: 20px;
+	/*display: none;*/
+	line-height: 32px;
+	padding: 0 0 10px 0;
+}
+
+#sidebar ul.submenu > li > a {
+	padding: 0 0 0 40px;
+}
+
+#sidebar ul.menu > li:hover > ul.submenu {
+	display: block;
+}
+
+#body {
+	background-color: #ffffff;
+	width: 700px;
+	min-height: 100vh;
+	margin-left: 220px;
+	box-shadow: 0 0 20px rgba(26, 26, 26, 0.2);
+	font-size: 16px;
+	overflow: auto;
+}
+
+#searchbar {
+	background-color: #dfe7ec;
+	padding: 10px;
+	display:flex;
+	flex-direction:row;
+}
+#searchbar input[type=text] {
+	border: none;
+	/*border-radius: 15px 0 0 15px;*/
+	border-radius: 15px;
+	font-size: 15px;
+	padding: 7px;
+	box-sizing: border-box;
+	flex-grow: 2;
+}
+#searchbar input[type=text]:focus {
+	outline: none;
+	border: 2px solid #8faabc;
+	padding: 5px;
+}
+#searchbar button {
+	border-radius: 0 15px 15px 0;
+	width: 90px;
+	border: none;
+	background-color: #8faabc;
+	z-index: 1;
+	padding: 2px;
+	color: #ffffff;
+}
+#searchbar button:focus {
+	outline: none;
+	border: 2px solid #60869f;
+	padding: 0;
+}
+#searchbar button:active {
+	background-color: #60869f;
+}
+
+.table {
+	margin: 35px;
+}
+
+.data_table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.data_table td {
+	padding: 5px;
+}
+
+.data_table th {
+	background-color: #afc2cf;
+	padding: 8px;
+	color: #ffffff;
+	text-align: left;
+	font-weight: normal;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.data_table tr:nth-child(odd) {
+	background-color: #f2f2f2;
+}
+
+.data_table tr:hover {
+	background-color: #d9d9d9;
+}
+
+a.regs_button, a.edit_button {
+	display: block;
+	background-color: #8faabc;
+	width: 32px;
+	height: 24px;
+	background-repeat: no-repeat;
+	background-size: auto 20px;
+	background-position: center;
+}
+
+a.regs_button {
+	background-image: url(/more.svg);
+}
+
+a.edit_button {
+	background-image: url(/edit.svg);
+}
+
+a.regs_button:hover, a.edit_button:hover {
+	background-color: #809eb3;
+}
+
+a.regs_button:active, a.edit_button:active {
+	background-color: #60869f;
+}
+
+button.write_button {
+	margin-top: 3px;
+	width: 32px;
+	height: 24px;
+	border: none;
+	cursor:pointer;
+	background-image: url(/card.svg);
+	background-repeat: no-repeat;
+	background-size: auto 20px;
+	background-position: center;
+}
+
+.written_button {
+	background-color: #8faabc;
+}
+
+.written_button:hover {
+	background-color: #809eb3;
+}
+
+.written_button:active {
+	background-color: #60869f;
+	outline: none;
+}
+
+.unwritten_button {
+	background-color: #ff6666;
+}
+
+.unwritten_button:hover {
+	background-color: #ff4d4d;
+}
+
+.unwritten_button:active {
+	background-color: #ff1a1a;
+}
+
+.attendee_status {
+	height: 18px;
+	padding: 3px;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding-top: 10%;
+}
+
+.modal_msg {
+	position: relative;
+	margin: auto;
+	width: 400px;
+	height: 200px;
+	background-color: #ffffff;
+	box-shadow: 0 0 20px rgba(26, 26, 26, 0.4);
+}
+
+.modal_header {
+	background-color: #8faabc;
+	color: #ffffff;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: 24px;
+	padding: 10px 0 0 65px;
+	height: 40px;
+}
+
+.modal_header img {
+	height: 40px;
+	position: absolute;
+	left: 5px;
+	top: 5px;
+}
+
+.modal_body {
+	padding: 40px;
+	text-align: center;
+}
+
+.modal_ok {
+	display: none;
+	background-color: #8faabc;
+	color: #ffffff;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	width: 80px;
+	height: 20px;
+	padding: 5px;
+	text-align: center;
+	margin: auto;
+}
+
+.close {
+	background-color: #8faabc;
+	color: white;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 50px;
+	height: 50px;
+	font-size: 40px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.modal_ok:hover, modal_ok:focus, .close:hover, .close:focus {
+	background-color: #809eb3;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.modal_ok:active, .close:active {
+	background-color: #60869f;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.data_form {
+	margin: 35px;
+}
+
+.data_form input[type=submit] {
+	width: 100%;
+	height: 40px;
+	background-color: #8faabc;
+	border: none;
+	color: #ffffff;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: 24px;
+	margin-top: 25px;
+}
+
+.data_form input[type=submit]:hover {
+	background-color: #809eb3;
+}
+
+h1, h2, h3 {
+	color: #8faabc;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.data_form input[type=submit]:active {
+	background-color: #60869f;
+}
+
+button.big_write_button {
+	display: none;
+	margin: 0 35px;
+	width: calc(100% - 70px);
+	height: 40px;
+	border: none;
+	color: #ffffff;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: 24px;
+	background-image: url(/card.svg);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.data_block {
+	display: flex;
+	padding-right: 60px;
+}
+
+.check_block {
+	display: flex;
+	padding-left: 40px;
+}
+
+.data_col {
+	width: 50%;
+}
+
+.data_box {
+	margin: 10px 0;
+	text-align: right;
+}
+
+.check_box {
+	margin: 10px 0;
+}
+
+.data_box span {
+	color: #ff6666;
+}
+
+.info {
+	width: 100%;
+	min-height: 45px;
+	margin: 15px 0;
+	text-align: center;
+	line-height: 45px;
+	display: none;
+}
+
+.error {
+	border: 2px solid #b30000;
+	color: #b30000;
+	background-color: #ff9999;
+}
+
+.success {
+	border: 2px solid #2d9f2d;
+	color: #2d9f2d;
+	background-color: #afe9af;
+}
+
+.success a, .success a:visited {
+	color: #2d9f2d;
+}
