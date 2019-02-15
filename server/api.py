@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""REST API for tracking system that is used in web interface.
+"""
+
 from signal import signal, alarm, SIGALRM
 from time import sleep
 from json import dumps
@@ -12,13 +16,15 @@ dbc = DBConnect("conference_data.db")
 
 @get("/api/attendees")
 def get_attendees():
+    """Gets json with list of all attendees."""
     attendees = dbc.get_attendees()
     return dumps(attendees)
 
 
-@get("/api/attendees/<id>")
-def get_attendee(id):
-    attendee = dbc.get_attendee(id)
+@get("/api/attendees/<aid>")
+def get_attendee(aid):
+    """Gets json with dict of attendee's info."""
+    attendee = dbc.get_attendee(aid)
     return dumps(attendee)
 
 
@@ -32,11 +38,11 @@ def add_attendee():
         response.status = 400
         return dumps(dict(error="Required parameters can't be empty"))
     aid = dbc.add_attendee(request.json["name"],
-                              request.json["surname"],
-                              request.json["organization"] if "organization" in request.json else "",
-                              request.json["degree"] if "degree" in request.json else "",
-                              request.json["is_activated"] if "is_activated" in request.json else False,
-                              commit=False)
+                           request.json["surname"],
+                           request.json["organization"] if "organization" in request.json else "",
+                           request.json["degree"] if "degree" in request.json else "",
+                           request.json["is_activated"] if "is_activated" in request.json else False,
+                           commit=False)
     if aid is None:
         response.status = 500
         return dumps(dict(error="Error during attendee creation"))
@@ -63,8 +69,8 @@ def edit_attendee(id):
             attendee[key] = value
     old_attendee = dbc.get_attendee(id)
     if (("name" in attendee or "surname" in attendee)
-        and (attendee["name"] != old_attendee["name"] 
-             or attendee["surname"] != old_attendee["surname"])):
+            and (attendee["name"] != old_attendee["name"]
+                 or attendee["surname"] != old_attendee["surname"])):
         attendee["card_written"] = 0
     if not dbc.edit_attendee(id, commit=False, **attendee):
         response.status = 500
@@ -74,7 +80,7 @@ def edit_attendee(id):
         request_sections = list(map(int, request.json["sections"]))
         for section in sections:
             if (section["id"] in request_sections
-                and section["status"] == 0):
+                    and section["status"] == 0):
                 dbc.set_reg_status(id, section["id"], 1, commit=False)
             elif section["id"] not in request_sections:
                 dbc.set_reg_status(id, section["id"], 0, commit=False)
@@ -121,22 +127,25 @@ def write_attendee_card(id):
         return dumps(dict(id=id, status="Some problems occured. Try again."))
 
 
-@get("/api/attendees/<id>/sections")
-def get_attendee_regs(id):
-    sections = dbc.get_aregs(id)
+@get("/api/attendees/<aid>/sections")
+def get_attendee_regs(aid):
+    """Gets json of all sections where attenee with 'aid' id is registered."""
+    sections = dbc.get_aregs(aid)
     response.set_header("Content-Type", "application/json")
     return dumps(sections)
 
 
 @get("/api/sections")
 def get_sections():
+    """Gets json with list of all sections."""
     sections = dbc.get_sections()
     return dumps(sections)
 
 
-@get("/api/sections/<id>")
-def get_section(id):
-    section = dbc.get_section(id)
+@get("/api/sections/<sid>")
+def get_section(sid):
+    """Gets json with section info."""
+    section = dbc.get_section(sid)
     return dumps(section)
 
 
@@ -176,9 +185,10 @@ def edit_section(id):
         return dumps(dict(error="Error during section editing"))
 
 
-@get("/api/sections/<id>/attendees")
-def get_section_regs(id):
-    attendees = dbc.get_sregs(id)
+@get("/api/sections/<sid>/attendees")
+def get_section_regs(sid):
+    """Gets json with list of attendees witch registered to section."""
+    attendees = dbc.get_sregs(sid)
     response.set_header("Content-Type", "application/json")
     return dumps(attendees)
 
