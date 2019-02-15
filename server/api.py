@@ -70,7 +70,7 @@ def edit_attendee(id):
         response.status = 500
         return dumps(dict(error="Error during attendee editing"))
     if "sections" in request.json:
-        sections = dbc.get_aregs(id, all=True)
+        sections = dbc.get_aregs(id, get_all=True)
         request_sections = list(map(int, request.json["sections"]))
         for section in sections:
             if (section["id"] in request_sections
