@@ -1,26 +1,35 @@
+# -*- coding: utf-8 -*-
+"""This module describes functions for generating and returning html pages of
+the web interface of system.
+"""
+
 from bottle import get, abort, template, redirect, static_file
 from db import DBConnect
 
 dbc = DBConnect("conference_data.db")
 
 
-@get("/<file:re:.*\.(css|js)>")
+@get(r"/<file:re:.*\.(css|js)>")
 def static_files(file):
+    """Gets statis files as css and js."""
     return static_file(file, "static")
 
 
-@get("/<file:re:.*\.svg>")
-def static_files(file):
+@get(r"/<file:re:.*\.svg>")
+def images(file):
+    """Gets images"""
     return static_file(file, "images")
 
 
 @get("/")
 def main_index():
+    """Redirection from root"""
     redirect("/attendees")
 
 
 @get("/attendees")
 def attendee_index():
+    """Table with all attendees"""
     write_modal_tpl = template("templates/write_modal.tpl")
     body_tpl = template("templates/attendee_table.tpl",
                         write_modal=write_modal_tpl)
@@ -30,19 +39,22 @@ def attendee_index():
                     show_searchbox=False)
 
 
-@get("/attendees/<id>")
-def attendee_info_index(id):
+# TODO: add page with attendee's info
+@get("/attendees/<aid>")
+def attendee_info_index(aid):
+    """Page with detailed info of attendee."""
     pass
 
 
-@get("/attendees/<id>/edit")
-def edit_attendee_index(id):
+@get("/attendees/<aid>/edit")
+def edit_attendee_index(aid):
+    """Page for editing attendee's info."""
     sections = dbc.get_sections()
     write_modal_tpl = template("templates/write_modal.tpl")
     body_tpl = template("templates/attendee_form.tpl",
                         write_modal=write_modal_tpl,
                         sections=sorted(sections, key=lambda k: k["name"]),
-                        id=id)
+                        id=aid)
     return template("templates/index.tpl",
                     title="Edit attendee",
                     body=body_tpl,
@@ -51,6 +63,7 @@ def edit_attendee_index(id):
 
 @get("/attendees/add")
 def add_attendee_index():
+    """Page for creation of new attendee."""
     sections = dbc.get_sections()
     write_modal_tpl = template("templates/write_modal.tpl")
     body_tpl = template("templates/attendee_form.tpl",
@@ -65,6 +78,7 @@ def add_attendee_index():
 
 @get("/sections")
 def sections_index():
+    """Page with list of all sections."""
     body_tpl = template("templates/section_table.tpl")
     return template("templates/index.tpl",
                     title="Sections",
@@ -72,9 +86,10 @@ def sections_index():
                     show_searchbox=False)
 
 
-@get("/sections/<id>")
-def sections_regs_index(id):
-    section = dbc.get_section(id)
+@get("/sections/<sid>")
+def sections_regs_index(sid):
+    """Page with list of attendees witch is registered to the section."""
+    section = dbc.get_section(sid)
     if not section:
         abort(404)
     body_tpl = template("templates/regs_table.tpl", section=section)
@@ -86,6 +101,7 @@ def sections_regs_index(id):
 
 @get("/sections/add")
 def add_section_index():
+    """Page for creation of new section."""
     body_tpl = template("templates/section_form.tpl", id=None)
     return template("templates/index.tpl",
                     title="Add section",
@@ -93,9 +109,10 @@ def add_section_index():
                     show_searchbox=False)
 
 
-@get("/sections/<id>/edit")
-def edit_section_index(id):
-    body_tpl = template("templates/section_form.tpl", id=id)
+@get("/sections/<sid>/edit")
+def edit_section_index(sid):
+    """Page for edit section data."""
+    body_tpl = template("templates/section_form.tpl", id=sid)
     return template("templates/index.tpl",
                     title="Edit section",
                     body=body_tpl,

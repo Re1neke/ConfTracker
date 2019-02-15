@@ -363,6 +363,7 @@ class DBConnect:
             self.db_connect.commit()
         return bool(cursor.rowcount)
 
+# TODO: add db semaphore realization.
 # This not work correctly now. But will be fixed later.
 #   def get_nfc_status(self):
 #       query = "SELECT is_busy FROM nfc_module"
